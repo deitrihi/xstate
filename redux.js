@@ -24,6 +24,9 @@ function toggle(state, action) {
             state = 'inactive';
         }
         break;
+        case 'INPUT':
+            state = action.data.text;
+        break;
     }
     return state;
 }
@@ -32,6 +35,8 @@ var toggleStore = {
     store : Redux.createStore(toggle), 
     store2 : Redux.createStore(counter)
 }
+import('./reducers.js').then((re) => 
+toggleStore.store = re.default );
 var valueEl = document.getElementById('value')
 
 function render() {
@@ -72,6 +77,6 @@ function toggleRender() {
 toggleStore.store.subscribe(toggleRender);
 
 document.querySelector('#btn2').addEventListener('click', () => {
-    toggleStore.store.dispatch({type:'TOGGLE'});
+    toggleStore.store.dispatch( {type:'INPUT', data:{ text:document.querySelector('input').value, image:'DDDD'}} );
     toggleStore.store2.dispatch({ type: 'INCREMENT' });
 });
